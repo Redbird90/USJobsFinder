@@ -1,0 +1,21 @@
+usjf remaining
+
+Fix posting date layout in nav drawer [C]
+Turn back on url opening [C]
+Finalize filters & sorting layout, ensure little to no scrolling
+Add progress bar/ui for job search [C]
+Change tag buttons to ToggleButtons [C]
+Change web progress to ProgressBar obj
+Add logic to handle no tags selected
+Test logic for changing between current loc/spec loc
+Ensure button in ON state is consistent between filters and easily noticeable by user
+Add null/empty value checks when reading data from JSON, replace with appropriate values and notify user
+Fix string values for "Opened " and "Closing " [C]
+Fix multiple map onLongClicks and give user a way to see location and exit activity [C]
+Add notification to user if certain filter prefs are being ignored due to query, etc.
+Add tutorial to show user how to use the app upon first launch
+Fix prefs headers and summaries to be concise
+Ensure design is accurate to guidelines
+Test integrity of favorites saving
+Consider addition of previous search queries option, may be able to add to autocomplete in EditText obj
+Finalize theme colors and styling
