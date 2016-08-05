@@ -12,6 +12,7 @@ Ensure button in ON state is consistent between filters and easily noticeable by
 Add null/empty value checks when reading data from JSON, replace with appropriate values and notify user
 Fix string values for "Opened " and "Closing " [C]
 Fix multiple map onLongClicks and give user a way to see location and exit activity [C]
+Fix query strings with spaces to not crash search
 Add notification to user if certain filter prefs are being ignored due to query, etc.
 Add tutorial to show user how to use the app upon first launch
 Fix prefs headers and summaries to be concise
