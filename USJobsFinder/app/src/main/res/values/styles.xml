@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="colorAccent">@color/color_Accent</item>
+        <item name="colorControlHighlight">@color/color_Highlight</item>
+        <item name="colorButtonNormal">@color/color_ButtonNormal</item>
+        <item name="colorControlActivated">@color/color_ControlActivated</item>
+        <item name="colorControlNormal">@color/color_ControlNormal</item>
+    </style>
+
+    <style name="DrawerDivider">
+        <item name="android:layout_width">230dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+</resources>

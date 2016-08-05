@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference android:title="tempFAQ"
+        android:key="@string/prefs_tutorial_key"
+        android:summary="tempSummary"
+        android:defaultValue=""/>
+    <ListPreference android:title="@string/prefs_listsizetitle"
+        android:summary="@string/prefs_listsizesummary"
+        android:key="@string/prefs_tsilsize_key"
+        android:defaultValue="2"
+        android:entries="@array/job_size_pref_entries_array"
+        android:entryValues="@array/job_size_pref_entryvalues_array"/>
+    <SwitchPreference android:title="@string/prefs_openlinkstitle"
+        android:key="@string/prefs_openlinks_key"
+        android:defaultValue="false"/>
+    <Preference android:title="@string/prefs_clearfavstitle"
+        android:key="@string/prefs_clearfavs_key"
+        android:defaultValue="false"/>
+
+
+
+</PreferenceScreen>

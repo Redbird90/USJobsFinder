@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_items_rel_lay">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="8dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginTop="8dp"
+              android:text="@string/drawer_tv_filters"
+              android:textSize="16sp"
+              android:textStyle="bold"
+              android:textAppearance="@style/TextAppearance.AppCompat.Title"
+              android:id="@+id/drawer_filters_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_filters_textview"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/drawer_tv_tags"
+        android:textSize="14sp"
+        android:id="@+id/drawer_tags_textview"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_tags_textview"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:id="@+id/drawer_linearlayout_horizontal1">
+
+        <ToggleButton
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="@string/drawer_btn_tags1"
+            android:textOff="@string/drawer_btn_tags1"
+            android:textAppearance="@android:style/TextAppearance.Theme"
+            android:minHeight="46dp"
+            android:theme="@style/AppTheme"
+            android:id="@+id/drawer_tags_button1"/>
+
+        <ToggleButton
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="@string/drawer_btn_tags2"
+            android:textOff="@string/drawer_btn_tags2"
+            android:textAppearance="@android:style/TextAppearance.Theme"
+            android:minHeight="46dp"
+            android:theme="@style/AppTheme"
+            android:id="@+id/drawer_tags_button2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_linearlayout_horizontal1"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:id="@+id/drawer_linearlayout_horizontal2">
+
+        <ToggleButton
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="@string/drawer_btn_tags3"
+            android:textOff="@string/drawer_btn_tags3"
+            android:textAppearance="@android:style/TextAppearance.Theme"
+            android:minHeight="46dp"
+            android:theme="@style/AppTheme"
+            android:id="@+id/drawer_tags_button3"/>
+
+        <ToggleButton
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="@string/drawer_btn_tags4"
+            android:textOff="@string/drawer_btn_tags4"
+            android:textAppearance="@android:style/TextAppearance.Theme"
+            android:minHeight="46dp"
+            android:theme="@style/AppTheme"
+            android:id="@+id/drawer_tags_button4"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/DrawerDivider"
+        android:layout_below="@id/drawer_linearlayout_horizontal2"
+        android:id="@+id/drawer_divider_1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_divider_1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/drawer_tv_postdateheader"
+        android:textSize="14sp"
+        android:id="@+id/drawer_postdate_textview_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_postdate_textview_header"
+        android:orientation="horizontal"
+        android:id="@+id/drawer_postdate_linearlayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/drawer_tv_postdate_before"
+            android:id="@+id/drawer_postdate_textview_before"/>
+
+        <NumberPicker
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/drawer_postdate_numpicker"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/drawer_tv_postdate_after"
+            android:id="@+id/drawer_postdate_textview_after"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/DrawerDivider"
+        android:layout_below="@id/drawer_postdate_linearlayout"
+        android:id="@+id/drawer_divider_2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_divider_2"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/drawer_tv_location"
+        android:textSize="14sp"
+        android:id="@+id/drawer_location_textview"/>
+
+    <ToggleButton
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_location_textview"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:maxLines="1"
+        android:textOn="@string/drawer_btn_usecurrloc"
+        android:textOff="@string/drawer_btn_usecurrloc"
+        android:textAppearance="@android:style/TextAppearance.Theme"
+        android:minHeight="46dp"
+        android:theme="@style/AppTheme"
+        android:id="@+id/drawer_currlocation_button"/>
+
+    <ToggleButton
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_currlocation_button"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:maxLines="1"
+        android:textOn="@string/drawer_btn_usespecloc"
+        android:textOff="@string/drawer_btn_usespecloc"
+        android:textAppearance="@android:style/TextAppearance.Theme"
+        android:minHeight="46dp"
+        android:theme="@style/AppTheme"
+        android:id="@+id/drawer_speclocation_button"/>
+
+    <View
+        style="@style/DrawerDivider"
+        android:layout_below="@id/drawer_speclocation_button"
+        android:id="@+id/drawer_divider_3"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_divider_3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/drawer_tv_sorting"
+        android:textSize="14sp"
+        android:id="@+id/drawer_sorting_textview"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_sorting_textview"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:id="@+id/drawer_sorting_radiogroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drawer_radbtn_sortsalaryasc"
+            android:id="@+id/drawer_salaryascending_radiobtn1"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drawer_radbtn_sortsalarydesc"
+            android:id="@+id/drawer_salarydescending_radiobtn2"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drawer_radbtn_sortstartdatenew"
+            android:id="@+id/drawer_startdatenewest_radiobtn3"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drawer_radbtn_sortstartdateold"
+            android:id="@+id/drawer_startdateoldest_radiobtn4"/>
+    </RadioGroup>
+
+
+</RelativeLayout>

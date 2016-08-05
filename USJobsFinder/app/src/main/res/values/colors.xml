@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_PrimaryLight">#E57373</color>
+    <color name="color_Primary">#F44336</color>
+    <color name="color_PrimaryDark">#D32F2F</color>
+    <color name="color_AccentLight">#B2FF59</color>
+    <color name="color_Accent">#76FF03</color>
+    <color name="color_AccentDark">#64DD17</color>
+    <color name="color_Highlight">#D32F2F</color>
+    <color name="color_ButtonNormal">#B2FF59</color>
+    <color name="color_ControlActivated">#0026FF</color>
+    <color name="color_ControlNormal">#00FFE5</color>
+</resources>
