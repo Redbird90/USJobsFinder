@@ -180,7 +180,9 @@ public class FilterPrefs {
         boolean jobRemoved = false;
 
         for (int b = 0; b < numOfFavJobs; b++) {
-            if (favsJobData[b].getString(JOB_ID) == newJob.getString(JOB_ID)) {
+            Log.i(LOG_TAG, "id comparison: " + favsJobData[b].getString(JOB_ID) + ", " + newJob.getString(JOB_ID));
+            // TODO: Institute null checks below?
+            if (favsJobData[b].getString(JOB_ID).equals(newJob.getString(JOB_ID))) {
                 Log.i(LOG_TAG, "found duplicate favorite, ids are " + favsJobData[b].getString(JOB_ID)
                 + " , " + newJob.getString(JOB_ID) + " and titles are " + favsJobData[b].getString(JOB_TITLE3)
                 + " , " + newJob.getString(JOB_TITLE3));

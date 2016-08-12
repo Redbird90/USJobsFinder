@@ -7,14 +7,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -98,7 +97,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
     @Override
     public void onBindViewHolder(ViewAndJobHolder holder, int position) {
 
-        View viewToPopulate;
+        final View viewToPopulate;
         viewToPopulate = holder.itemView;
         final Bundle job = jobTsil.get(position);
         //holder.setJobInHolder(job);
@@ -149,13 +148,17 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
                 Log.i(LOG_TAG, "long clicked to save job, id is " + job.getString(JOB_ID));
 
                 boolean saveResult = saveJobBundle2(job);
-                Toast saveToast;
+                Snackbar saveSnack;
+                //Toast saveToast;
                 if (saveResult) {
-                    saveToast = Toast.makeText(holderContext, holderContext.getString(R.string.favs_jobsaved), Toast.LENGTH_LONG);
+                    saveSnack = Snackbar.make(viewToPopulate, holderContext.getString(R.string.favs_jobsaved), Snackbar.LENGTH_LONG);
+                    //saveToast = Toast.makeText(holderContext, holderContext.getString(R.string.favs_jobsaved), Toast.LENGTH_LONG);
                 } else {
-                    saveToast = Toast.makeText(holderContext, holderContext.getString(R.string.favs_jobremoved), Toast.LENGTH_LONG);
+                    saveSnack = Snackbar.make(viewToPopulate, holderContext.getString(R.string.favs_jobremoved), Snackbar.LENGTH_LONG);
+                    //saveToast = Toast.makeText(holderContext, holderContext.getString(R.string.favs_jobremoved), Toast.LENGTH_LONG);
                 }
-                saveToast.show();
+                saveSnack.show();
+                //saveToast.show();
                 return true;
             }
         });
@@ -215,80 +218,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
         Log.i(LOG_TAG, "onBindViewHolder RUN, view populated");
 
     }
-
-
-/*    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View v = convertView;
-        if (v == null) {
-            //Log.i(LOG_TAG, "v is null");
-            LayoutInflater inflater = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.list_item_reljob, parent, false);
-        } else {
-            //Log.i(LOG_TAG, "v is non-null");
-        }
-
-        Bundle job = jobTsil.get(position);
-
-        //final String JOB_ID = "id";
-        final String JOB_TITLE = "position_title";
-        final String JOB_ORGNAME = "organization_name";
-        final String JOB_CODE = "rate_interval_code";
-        final String JOB_MIN = "minimum";
-        final String JOB_MAX = "maximum";
-        final String JOB_START = "start_date";
-        final String JOB_END = "end_date";
-        final String JOB_LOC_array = "locations";
-
-        TextView jobTitleTV = (TextView) v.findViewById(R.id.list_item_job_title_tv);
-        TextView jobSalaryTV = (TextView) v.findViewById(R.id.list_item_job_salary_tv);
-        TextView jobStartTV = (TextView) v.findViewById(R.id.list_item_job_start_tv);
-        TextView jobEndTV = (TextView) v.findViewById(R.id.list_item_job_end_tv);
-        //TextView jobIdTV = (TextView) v.findViewById(R.id.list_item_job_id_tv);
-        TextView jobOrgnameTV = (TextView) v.findViewById(R.id.list_item_job_orgname_tv);
-        TextView jobLocationsTV = (TextView) v.findViewById(R.id.list_item_job_locations_tv);
-
-        NumberFormat currStrFormat = NumberFormat.getCurrencyInstance();
-        currStrFormat.setMinimumFractionDigits(0);
-        String modSalaryStr = currStrFormat.format(job.getInt(JOB_MIN)) + " to " + currStrFormat.format(job.getInt(JOB_MAX));
-        //String modSalaryStr = "$" + Integer.toString(job.getInt(JOB_MIN)) + " to $" + Integer.toString(job.getInt(JOB_MAX));
-        String modLocStr = "";
-        String[] jobLocArray = job.getStringArray(JOB_LOC_array);
-        if (jobLocArray.length == 1) {
-            modLocStr = jobLocArray[0];
-        } else if (jobLocArray.length > 2) {
-            modLocStr = mainContext.getString(R.string.job_toomanylocations);
-        } else {
-                modLocStr = "";
-                for (int i = 0; i < jobLocArray.length; i++) {
-                    modLocStr += jobLocArray[i] + ", ";
-                }
-                Log.i(LOG_TAG, "String prior formatting: " + modLocStr);
-                //TODO: Debug below line to remove ","
-                Log.i(LOG_TAG, "len is " + String.valueOf(modLocStr.length()));
-                modLocStr = modLocStr.substring(0, modLocStr.length()-2);
-                Log.i(LOG_TAG, "String after formatting: " + modLocStr);
-        }
-
-        jobTitleTV.setText(job.getString(JOB_TITLE));
-        jobSalaryTV.setText(modSalaryStr);
-        jobStartTV.setText("Opened " + job.getString(JOB_START));
-        jobEndTV.setText("Closing " + job.getString(JOB_END));
-        //jobIdTV.setText(job.getString(JOB_ID));
-        jobOrgnameTV.setText(job.getString(JOB_ORGNAME));
-        // TODO: If multiple locations for the listing, allow user to see all locations with a tap
-        jobLocationsTV.setText(modLocStr);
-
-        Log.i(LOG_TAG, "JobAdapter RUN, returning view");
-
-        return v;
-    }*/
-
-/*    @Override
-    public int getViewTypeCount() {
-        return 1;
-    };*/
 
     private boolean saveJobBundle2(Bundle bundledJobData2) {
         final String JOB_ID = "id";

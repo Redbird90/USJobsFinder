@@ -39,7 +39,9 @@
     <string name="tag_value_city">city</string>
     <string name="date_picker_header">Choose start date of results...</string>
     <string name="filterPostDateValueKey">filter_post_date_value</string>
-    <string name="location_permissions_denied">Location Unavailable</string>
+    <string name="location_error">Location Unavailable:\u0020</string>
+    <string name="location_permissions_denied">permission denied</string>
+    <string name="location_connection_error">connection failed</string>
     <string name="map_location_saved">Location Saved</string>
     <string name="custwebview_title">Job Details</string>
     <string name="extra_webview_url_key">job url</string>
@@ -65,4 +67,5 @@
     <string name="search_error_msg">Error connecting to jobs server.  Please try again later.</string>
     <string name="location_not_chosen">No Location Chosen</string>
     <string name="map_saved_specloc">Saved Location</string>
+    <string name="web_connect_error">Connection error:\u0020</string>
 </resources>

@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,20 +24,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -101,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(LOG_TAG, "creating...");
+        Log.i(LOG_TAG, "creating...4");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -120,15 +115,17 @@ public class MainActivity extends AppCompatActivity {
                 } else if (key.equals(getString(R.string.prefs_tsilsize_key))) {
                     tsilSizeVal = argSharedPrefs.getString(key, "50");
                     Log.i(LOG_TAG, "tsil size pref changed, " + tsilSizeVal);
-                } else if (key.equals(getString(R.string.prefs_clearfavs_key))) {
+                /*} else if (key.equals(getString(R.string.prefs_clearfavs_key))) {
                     Log.i(LOG_TAG, "clear favs pref changed, to " + argSharedPrefs.getBoolean(key, false));
                     if (argSharedPrefs.getBoolean(key, false)) {
                         if (favsDataFiltPrefs.clearFavoritesPermanently(fileIO)) {
-                            Toast confirmClearedFavs = Toast.makeText(mainActRef, getString(R.string.prefs_clearfavs_toastconfirmation), Toast.LENGTH_LONG);
+                            Snackbar confirmClearedFavs = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.prefs_clearfavs_toastconfirmation), Snackbar.LENGTH_LONG);
                             confirmClearedFavs.show();
+                            *//*Toast confirmClearedFavs = Toast.makeText(mainActRef, getString(R.string.prefs_clearfavs_toastconfirmation), Toast.LENGTH_LONG);
+                            confirmClearedFavs.show();*//*
                         };
                         Log.i(LOG_TAG, "call sent to clear favs data from favsDataFiltPrefs");
-                    }
+                    }*/
                 } else if (key.equals(getString(R.string.prefs_openlinks_key))) {
                     Log.i(LOG_TAG, "open links pref changed, to " + argSharedPrefs.getBoolean(key, false));
                 }
@@ -388,32 +385,15 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     Log.i(LOG_TAG, "Location permissions NOT GRANTED in mainAct, get a toast going");
-                    Toast toast = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
-                    toast.show();
+                    Snackbar snackbar2 = Snackbar.make(findViewById(R.id.root_linear_layout),
+                            getString(R.string.location_error)+getString(R.string.location_permissions_denied), Snackbar.LENGTH_SHORT);
+                    snackbar2.show();
+                    /*Toast toast = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
+                    toast.show();*/
                 }
 
         }
     }
-
-/*    @Override
-    public void onMapReady(final GoogleMap specLocMap) {
-        specLocMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                Toast mapToast = Toast.makeText(getApplicationContext(), getString(R.string.map_location_saved), Toast.LENGTH_SHORT);
-                if (specifiedLocation == null) {
-                    specifiedLocation = new Location("nomatter");
-                }
-                specifiedLocation.setLatitude(latLng.latitude);
-                specifiedLocation.setLongitude(latLng.longitude);
-                filterLocation = true;
-                filterSpecLocation = true;
-                filterCurrLocation = false;
-                drawerAdapter.setDrawerSpecifiedLocation(specifiedLocation);
-                mapToast.show();
-            }
-        });
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -442,15 +422,20 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Log.i(LOG_TAG, "data consists of 0,0 lat and long");
                     drawerAdapter.resetSpecLocPref();
-                    Toast toast2 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
-                    toast2.show();
+                    Snackbar snackbar3 = Snackbar.make(findViewById(R.id.root_linear_layout),
+                            getString(R.string.location_error)+getString(R.string.location_connection_error), Snackbar.LENGTH_SHORT);
+                    snackbar3.show();
+                    /*Toast toast2 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
+                    toast2.show();*/
                 }
                 // Do something with the contact here (bigger example below)
             } else {
                 Log.i(LOG_TAG, "result NOT ok after spec loc picker");
                 drawerAdapter.resetSpecLocPref();
-                Toast toast = Toast.makeText(this, this.getString(R.string.location_not_chosen), Toast.LENGTH_SHORT);
-                toast.show();
+                Snackbar snackbar4 = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.location_not_chosen), Snackbar.LENGTH_SHORT);
+                snackbar4.show();
+                /*Toast toast = Toast.makeText(this, this.getString(R.string.location_not_chosen), Toast.LENGTH_SHORT);
+                toast.show();*/
             }
         } else if (requestCode == LOAD_WEB_REQUEST) {
             Log.i(LOG_TAG, "onActResult webAct request found");
@@ -459,31 +444,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, "onActRes webAct request is OK");
                 Bundle soonToBeFavJob = data.getBundleExtra(getString(R.string.extra_webview_jobdata_key));
                 boolean saveResult2 = saveJobBundle(soonToBeFavJob);
-                Toast saveToast2;
+                Snackbar snackbar5;
                 if (saveResult2) {
-                    saveToast2 = Toast.makeText(getApplicationContext(), getString(R.string.favs_jobsaved), Toast.LENGTH_SHORT);
+                    snackbar5 = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.favs_jobsaved), Snackbar.LENGTH_SHORT);
                 } else {
-                    saveToast2 = Toast.makeText(getApplicationContext(), getString(R.string.favs_jobremoved), Toast.LENGTH_SHORT);
+                    snackbar5 = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.favs_jobremoved), Snackbar.LENGTH_SHORT);
                 }
-                saveToast2.show();
+                snackbar5.show();
             }
-        }
-    }
-
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-            Log.i(LOG_TAG, "webViewClient, overriding URL!");
-            view.loadUrl(url);
-
-            return true;
-        }
-
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest resourceRequest, WebResourceError resourceError) {
-            Log.i(LOG_TAG, "url ERROR: " + resourceError.toString());
-            Toast.makeText(getApplicationContext(), "Oh no! " + resourceError.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -564,21 +532,18 @@ public class MainActivity extends AppCompatActivity {
         // CHECK FOR NULL, LOCATION MAY NOT YET BE AVAILABLE
         if (this.filterCurrLocation) {
             Location tempCurrLocation;
-/*            if (drawerAdapter.getUpdatedCurrLoc() != null) {
-                tempCurrLocation = new Location(drawerAdapter.getUpdatedCurrLoc());
-            } else {
-                tempCurrLocation = new Location("nomatter2");
-                Toast toast3 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
-                toast3.show();
-            }*/
             try {
                 tempCurrLocation = new Location(drawerAdapter.getUpdatedCurrLoc());
             } catch (NullPointerException e) {
-                Toast toast3 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
-                toast3.show();
+                // TODO: Change below toast to indicate location is being gathered still
+                /*Snackbar snackbar = Snackbar.make(findViewById(R.id.root_linear_layout), R.string.location_permissions_denied, Snackbar.LENGTH_SHORT);
+                snackbar.show();*/
+                /*Toast toast3 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
+                toast3.show();*/
                 tempCurrLocation = new Location("nomatter2");
             }
             try {
+                // TODO: FIX or REMOVE below comparison as it is ridiculous and unnecessary
                 Log.i(LOG_TAG, "location comparing1: " + Double.toString(tempCurrLocation.getLatitude()) + "," + Double.toString(tempCurrLocation.getLongitude())
                         + " TO " + Double.toString(currLocation.getLatitude()) + "," + Double.toString(currLocation.getLongitude()));
                 if (Double.toString(tempCurrLocation.getLatitude()) + "," + Double.toString(tempCurrLocation.getLongitude())
@@ -786,19 +751,14 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView3.setAdapter(firstAdapter);
             } else {
                 // TODO: Show error prompt to user
-                Toast searchErrorToast = Toast.makeText(mainActRef, getString(R.string.search_error_msg), Toast.LENGTH_LONG);
-                searchErrorToast.show();
+                Snackbar searchErrorSnackbar = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.search_error_msg), Snackbar.LENGTH_LONG);
+                searchErrorSnackbar.show();
+                /*Toast searchErrorToast = Toast.makeText(mainActRef, getString(R.string.search_error_msg), Toast.LENGTH_LONG);
+                searchErrorToast.show();*/
             }
             // Sorting occurs here, in onPostExecute!
             if (sortChoice != 0) {
                 sortAdapter();
-                //firstAdapter.notifyDataSetChanged();
-                /*RelativeLayout rootView = (RelativeLayout) findViewById(R.id.jobstsil_rel_lay);
-
-                ListView listView4 = (ListView) rootView.findViewById(R.id.listview_search_results);
-                listView4.setAdapter(firstAdapter);
-                listView4.invalidateViews();*/
-
             }
             ProgressBar progressBarMain2 = (ProgressBar) rootView.findViewById(R.id.progressBarMainAct);
             progressBarMain2.setVisibility(View.INVISIBLE);
@@ -945,6 +905,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sortAdapter() {
 
+        // TODO: Ensure null values are sorted appropriately and do not bug the sorter
         ArrayList<Bundle> tempTsil = firstAdapter.getTsil();
 
 

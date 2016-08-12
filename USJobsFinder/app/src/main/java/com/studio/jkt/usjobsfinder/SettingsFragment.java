@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -30,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment {
         clearFavsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(final Preference preference) {
-                preference.getEditor().putBoolean(preference.getKey(), true);
+                //preference.getEditor().putBoolean(preference.getKey(), true);
                 Log.i(LOG_TAG, "clear favorites initiated");
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(getString(R.string.prefs_clearfavs_dialogtitle))
@@ -38,14 +40,16 @@ public class SettingsFragment extends PreferenceFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.i(LOG_TAG, "user confirmed deletion of favorites tsil, updating pref");
-
-                                SharedPreferences.Editor clearFavsEditor = clearFavsPref.getEditor();
-                                clearFavsEditor.putBoolean(getString(R.string.prefs_clearfavs_key), true);
-                                clearFavsEditor.apply();
+                                //SharedPreferences.Editor clearFavsEditor = clearFavsPref.getEditor();
+                                //clearFavsEditor.putBoolean(getString(R.string.prefs_clearfavs_key), true);
+                                //clearFavsEditor.apply();
                                 FileIO fileIO2 = new AndroidFileIO(getActivity());
                                 if (favsDataFiltPrefs2.clearFavoritesPermanently(fileIO2)) {
-                                    Toast confirmClearedFavs = Toast.makeText(getActivity(), getString(R.string.prefs_clearfavs_toastconfirmation), Toast.LENGTH_LONG);
-                                    confirmClearedFavs.show();
+                                    LinearLayout settLinearLayout = (LinearLayout) getActivity().findViewById(R.id.sett_lin_lay);
+                                    Snackbar confirmClearedFavsSnack = Snackbar.make(settLinearLayout, getString(R.string.prefs_clearfavs_toastconfirmation), Snackbar.LENGTH_LONG);
+                                    confirmClearedFavsSnack.show();
+                                    /*Toast confirmClearedFavs = Toast.makeText(getActivity(), getString(R.string.prefs_clearfavs_toastconfirmation), Toast.LENGTH_LONG);
+                                    confirmClearedFavs.show();*/
                                 }
                                 Log.i(LOG_TAG, "clear favs pref updated to true and applied");
                             }

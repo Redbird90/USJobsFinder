@@ -5,26 +5,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 /**
@@ -39,6 +37,8 @@ public class DrawerAdapter extends BaseAdapter {
     private Location drawerCurrLocation;
     private int PICK_LOCATION_REQUEST = 1002;
     private ToggleButton useSpecLocBtn;
+    private ToggleButton useCurrLocBtn;
+    private RelativeLayout rootDrawerRelLay;
 
     // filterTags specifies if tags filter is needed to be changed from default
     public boolean drawerFilterTags = false;
@@ -46,7 +46,6 @@ public class DrawerAdapter extends BaseAdapter {
     public boolean drawerFilterStateTag = true;
     public boolean drawerFilterCountyTag = true;
     public boolean drawerFilterCityTag = true;
-    public boolean drawerFilterPostDate = false;
     public String drawerFilterPostDateValue = "0";
     public boolean drawerFilterLocation = false;
     public boolean drawerFilterCurrLocation = false;
@@ -89,13 +88,13 @@ public class DrawerAdapter extends BaseAdapter {
             Log.i(LOG_TAG, "v is non-null");
         }
 
-        RelativeLayout relativeLayout = (RelativeLayout) v2.findViewById(R.id.drawer_items_rel_lay);
-        LinearLayout drawerLinLay1 = (LinearLayout) relativeLayout.findViewById(R.id.drawer_linearlayout_horizontal1);
+        rootDrawerRelLay = (RelativeLayout) v2.findViewById(R.id.drawer_items_rel_lay);
+        LinearLayout drawerLinLay1 = (LinearLayout) rootDrawerRelLay.findViewById(R.id.drawer_linearlayout_horizontal1);
         // Federal tag
         final ToggleButton fedTagBtn = (ToggleButton) drawerLinLay1.findViewById(R.id.drawer_tags_button1);
         // State tag
         final ToggleButton stateTagBtn = (ToggleButton) drawerLinLay1.findViewById(R.id.drawer_tags_button2);
-        LinearLayout drawerLinLay2 = (LinearLayout) relativeLayout.findViewById(R.id.drawer_linearlayout_horizontal2);
+        LinearLayout drawerLinLay2 = (LinearLayout) rootDrawerRelLay.findViewById(R.id.drawer_linearlayout_horizontal2);
         // County tag
         final ToggleButton countyTagBtn = (ToggleButton) drawerLinLay2.findViewById(R.id.drawer_tags_button3);
         // City tag
@@ -170,7 +169,7 @@ public class DrawerAdapter extends BaseAdapter {
             }
         });
 
-        NumberPicker postDateNumPicker = (NumberPicker) relativeLayout.findViewById(R.id.drawer_postdate_numpicker);
+        NumberPicker postDateNumPicker = (NumberPicker) rootDrawerRelLay.findViewById(R.id.drawer_postdate_numpicker);
         postDateNumPicker.setMinValue(1);
         postDateNumPicker.setMaxValue(11);
         final String[] numPickerArray = new String[11];
@@ -190,8 +189,8 @@ public class DrawerAdapter extends BaseAdapter {
             }
         });
 
-        final ToggleButton useCurrLocBtn = (ToggleButton) relativeLayout.findViewById(R.id.drawer_currlocation_button);
-        useSpecLocBtn = (ToggleButton) relativeLayout.findViewById(R.id.drawer_speclocation_button);
+        useCurrLocBtn = (ToggleButton) rootDrawerRelLay.findViewById(R.id.drawer_currlocation_button);
+        useSpecLocBtn = (ToggleButton) rootDrawerRelLay.findViewById(R.id.drawer_speclocation_button);
         useCurrLocBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -238,11 +237,11 @@ public class DrawerAdapter extends BaseAdapter {
             }
         });
 
-        final RadioButton sortingRadBtn1 = (RadioButton) relativeLayout.findViewById(R.id.drawer_salaryascending_radiobtn1);
-        final RadioButton sortingRadBtn2 = (RadioButton) relativeLayout.findViewById(R.id.drawer_salarydescending_radiobtn2);
-        final RadioButton sortingRadBtn3 = (RadioButton) relativeLayout.findViewById(R.id.drawer_startdatenewest_radiobtn3);
-        final RadioButton sortingRadBtn4 = (RadioButton) relativeLayout.findViewById(R.id.drawer_startdateoldest_radiobtn4);
-        final RadioGroup sortingRadioGroup = (RadioGroup) relativeLayout.findViewById(R.id.drawer_sorting_radiogroup);
+        final RadioButton sortingRadBtn1 = (RadioButton) rootDrawerRelLay.findViewById(R.id.drawer_salaryascending_radiobtn1);
+        final RadioButton sortingRadBtn2 = (RadioButton) rootDrawerRelLay.findViewById(R.id.drawer_salarydescending_radiobtn2);
+        final RadioButton sortingRadBtn3 = (RadioButton) rootDrawerRelLay.findViewById(R.id.drawer_startdatenewest_radiobtn3);
+        final RadioButton sortingRadBtn4 = (RadioButton) rootDrawerRelLay.findViewById(R.id.drawer_startdateoldest_radiobtn4);
+        final RadioGroup sortingRadioGroup = (RadioGroup) rootDrawerRelLay.findViewById(R.id.drawer_sorting_radiogroup);
         sortingRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -337,13 +336,13 @@ public class DrawerAdapter extends BaseAdapter {
                     Log.i(LOG_TAG, "onLocChanged in drawerAdapter, updating");
                     // Called when a new location is found by the network location provider.
                     if (location == null) {
-                        Log.i(LOG_TAG, "location null in drawerAdapter, toast is notifying user");
-                        drawerFilterCurrLocation = false;
-                        if (!drawerFilterSpecLocation) {
-                            drawerFilterLocation = false;
-                        }
-                        Toast toast = Toast.makeText(mainContext2, mainContext2.getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
-                        toast.show();
+                        Log.i(LOG_TAG, "location null in drawerAdapter, snackbar is notifying user");
+                        resetCurrLocPref();
+                        Snackbar drawerSnackbar = Snackbar.make(rootDrawerRelLay,
+                                mainContext2.getString(R.string.location_error)+mainContext2.getString(R.string.location_connection_error), Snackbar.LENGTH_LONG);
+                        drawerSnackbar.show();
+                        /*Toast toast = Toast.makeText(mainContext2, mainContext2.getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
+                        toast.show();*/
                     } else {
                         drawerCurrLocation = new Location(location);
                         //drawerFilterLocation = true;
@@ -409,6 +408,10 @@ public class DrawerAdapter extends BaseAdapter {
 
     public void resetSpecLocPref() {
         useSpecLocBtn.setChecked(false);
+    }
+
+    public void resetCurrLocPref() {
+        useCurrLocBtn.setChecked(false);
     }
 
     public boolean getDrawerFilterSpecLocation() {

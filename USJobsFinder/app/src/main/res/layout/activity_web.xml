@@ -15,9 +15,9 @@
         android:indeterminate="true"
         android:id="@+id/webProgressBar"/>
 
-    <com.studio.jkt.usjobsfinder.MyCustWebView
+    <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cust_webview"/>
+        android:id="@+id/reg_webview"/>
 
 </LinearLayout>

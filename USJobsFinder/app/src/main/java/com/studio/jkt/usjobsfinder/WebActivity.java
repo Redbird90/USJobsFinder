@@ -3,6 +3,7 @@ package com.studio.jkt.usjobsfinder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,7 +19,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 /**
  * Created by James on 7/1/2016.
@@ -42,7 +42,7 @@ public class WebActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "provided URL is " + providedURL);
         LinearLayout webActRootLay = (LinearLayout) findViewById(R.id.web_lin_lay);
         final ProgressBar webProgBar = (ProgressBar) webActRootLay.findViewById(R.id.webProgressBar);
-        regWebView = (WebView) webActRootLay.findViewById(R.id.cust_webview);
+        regWebView = (WebView) webActRootLay.findViewById(R.id.reg_webview);
         WebSettings webSettings = regWebView.getSettings();
         regWebView.setWebViewClient(new MyWebViewClient());
         regWebView.setWebChromeClient(new WebChromeClient() {
@@ -84,7 +84,9 @@ public class WebActivity extends AppCompatActivity {
         @Override
         public void onReceivedError(WebView view, WebResourceRequest resourceRequest, WebResourceError resourceError) {
             Log.i(LOG_TAG, "url ERROR: " + resourceError.toString());
-            Toast.makeText(getApplicationContext(), "Oh no! " + resourceError.toString(), Toast.LENGTH_SHORT).show();
+            LinearLayout webActRootLay2 = (LinearLayout) findViewById(R.id.web_lin_lay);
+            Snackbar webErrorSnackbar = Snackbar.make(webActRootLay2, getString(R.string.web_connect_error) + resourceError.toString(), Snackbar.LENGTH_SHORT);
+            webErrorSnackbar.show();
         }
 
     }
@@ -98,11 +100,12 @@ public class WebActivity extends AppCompatActivity {
                 exitWebActivity();
                 Log.i(LOG_TAG, "exit menu btn clicked");
                 return true;
-/*            case R.id.regwebview_favorite:
+            case R.id.regwebview_favorite:
                 Log.i(LOG_TAG, "fav menu btn clicked");
                 Intent webResultIntent = new Intent();
                 webResultIntent.putExtra(getString(R.string.extra_webview_jobdata_key), currJobBundle);
-                setResult(RESULT_OK, webResultIntent);*/
+                setResult(RESULT_OK, webResultIntent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -112,7 +115,7 @@ public class WebActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(LOG_TAG, "creating options menu...");
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.cust_exitable_menu, menu);
+        inflater.inflate(R.menu.cust_web_menu, menu);
         return true;
     }
 

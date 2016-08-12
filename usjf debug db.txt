@@ -1,0 +1,2 @@
+bug title,description,directions to reproduce,directions/guidelines to fix,comments
+location unavail soon after usecurrloc btn press, n/a, pressed usecurrloc btn in nav drawer and quickly closed nav drawer; location unavailable toast then is shown,to fix ch
