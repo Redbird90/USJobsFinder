@@ -6,7 +6,7 @@ Finalize filters & sorting layout, ensure little to no scrolling
 Add progress bar/ui for job search [C]
 Change tag buttons to ToggleButtons [C]
 Change web progress to ProgressBar obj [C]
-Add logic to handle no tags selected
+Add logic to handle no tags selected [C]
 Test logic for changing between current loc/spec loc
 Ensure button in ON state is consistent between filters and easily noticeable by user
 Add null/empty value checks when reading data from JSON, replace with appropriate values and notify user
@@ -14,8 +14,8 @@ Fix string values for "Opened " and "Closing " [C]
 Fix string length for adjacent textviews in recyclerview items so that textviews do not overlap
 Fix multiple map onLongClicks and give user a way to see location and exit activity [C]
 Fix query strings with spaces to not crash search [C]
-Change toasts to snackbars if possible
-Move recyclerview scrollbar to right of recyclerview items
+Change toasts to snackbars if possible [C]
+Move recyclerview scrollbar to right of recyclerview items [C]
 Add notification to user if certain filter prefs are being ignored due to query, etc.
 Add tutorial to show user how to use the app upon first launch
 Fix prefs headers and summaries to be concise

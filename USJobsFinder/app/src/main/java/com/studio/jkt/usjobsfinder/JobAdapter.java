@@ -108,7 +108,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
 
         viewToPopulate.setClickable(true);
         viewToPopulate.setFocusable(true);
-        //.setBackground
 
         viewToPopulate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,21 +116,33 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
                 Log.i(LOG_TAG, "itemClicked: " + job.getString(JOB_TITLE));
 
                 final String JOB_URL = "url";
-                SharedPreferences vhSharedPrefs = PreferenceManager.getDefaultSharedPreferences(holderContext);
-                boolean openLinksInBrowser2 = vhSharedPrefs.getBoolean(holderContext.getString(R.string.prefs_openlinks_key), false);
-                if (openLinksInBrowser2) {
-                    Log.i(LOG_TAG, "open links in browser true");
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getString(JOB_URL)));
-                    //mainContext.startActivity(browserIntent);
-                    holderActivity.startActivity(browserIntent);
+                String tempUrlStr = job.getString(JOB_URL);
+                if (tempUrlStr != null &&
+                        tempUrlStr.equals(holderContext.getString(R.string.url_unavailable_id))) {
+                    Snackbar urlMissingSnack = Snackbar.make(viewToPopulate,
+                            holderContext.getString(R.string.url_data_missing), Snackbar.LENGTH_SHORT);
+                    urlMissingSnack.show();
+                } else if (tempUrlStr == null) {
+                    Snackbar urlMissingSnack2 = Snackbar.make(viewToPopulate,
+                            holderContext.getString(R.string.url_data_missing), Snackbar.LENGTH_SHORT);
+                    urlMissingSnack2.show();
                 } else {
-                    Log.i(LOG_TAG, "open links in browser false");
-                    Intent jobWebLoadIntent = new Intent(holderContext, WebActivity.class);
-                    jobWebLoadIntent.putExtra(holderContext.getString(R.string.extra_webview_url_key), job.getString(JOB_URL));
-                    jobWebLoadIntent.putExtra(holderContext.getString(R.string.extra_webview_jobdata_key), job);
-                    //startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
-                    //vhContext.startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
-                    holderActivity.startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
+                    SharedPreferences vhSharedPrefs = PreferenceManager.getDefaultSharedPreferences(holderContext);
+                    boolean openLinksInBrowser2 = vhSharedPrefs.getBoolean(holderContext.getString(R.string.prefs_openlinks_key), false);
+                    if (openLinksInBrowser2) {
+                        Log.i(LOG_TAG, "open links in browser true");
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getString(JOB_URL)));
+                        //mainContext.startActivity(browserIntent);
+                        holderActivity.startActivity(browserIntent);
+                    } else {
+                        Log.i(LOG_TAG, "open links in browser false");
+                        Intent jobWebLoadIntent = new Intent(holderContext, WebActivity.class);
+                        jobWebLoadIntent.putExtra(holderContext.getString(R.string.extra_webview_url_key), job.getString(JOB_URL));
+                        jobWebLoadIntent.putExtra(holderContext.getString(R.string.extra_webview_jobdata_key), job);
+                        //startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
+                        //vhContext.startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
+                        holderActivity.startActivityForResult(jobWebLoadIntent, LOAD_WEB_REQUEST);
+                    }
                 }
             }
         });
@@ -188,28 +199,50 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
         String modLocStr = "";
         String[] jobLocArray = job.getStringArray(JOB_LOC_array);
         // TODO: add null check for jobLocArray, prob in fetchDataFromJson
-        if (jobLocArray.length == 1) {
-            modLocStr = jobLocArray[0];
-        } else if (jobLocArray.length > 2) {
-            modLocStr = mainContext.getString(R.string.job_toomanylocations);
-        } else {
-            modLocStr = "";
-            for (int i = 0; i < jobLocArray.length; i++) {
-                modLocStr += jobLocArray[i] + ", ";
+        if (jobLocArray != null) {
+            if (jobLocArray.length == 1) {
+                modLocStr = jobLocArray[0];
+            } else if (jobLocArray.length > 2) {
+                modLocStr = mainContext.getString(R.string.job_toomanylocations);
+            } else {
+                modLocStr = "";
+                for (int i = 0; i < jobLocArray.length; i++) {
+                    modLocStr += jobLocArray[i] + ", ";
+                }
+                Log.i(LOG_TAG, "String prior formatting: " + modLocStr);
+                //TODO: Debug below line to remove ","
+                Log.i(LOG_TAG, "len is " + String.valueOf(modLocStr.length()));
+                modLocStr = modLocStr.substring(0, modLocStr.length() - 2);
+                Log.i(LOG_TAG, "String after formatting: " + modLocStr);
             }
-            Log.i(LOG_TAG, "String prior formatting: " + modLocStr);
-            //TODO: Debug below line to remove ","
-            Log.i(LOG_TAG, "len is " + String.valueOf(modLocStr.length()));
-            modLocStr = modLocStr.substring(0, modLocStr.length()-2);
-            Log.i(LOG_TAG, "String after formatting: " + modLocStr);
+        } else {
+            modLocStr = holder.vhContext.getString(R.string.replacement_job_general);
         }
 
         jobTitleTV.setText(job.getString(JOB_TITLE));
         jobSalaryTV.setText(modSalaryStr);
-        String jobStartStr = holder.vhContext.getString(R.string.jobstsil_opened) + job.getString(JOB_START);
-        String jobEndStr = holder.vhContext.getString(R.string.jobstsil_closing) + job.getString(JOB_END);
-        jobStartTV.setText(jobStartStr);
-        jobEndTV.setText(jobEndStr);
+
+        String jobStartStr = job.getString(JOB_START);
+        if (jobStartStr != null && jobStartStr.equals(holder.vhContext.getString(R.string.replacement_job_date))) {
+            jobStartTV.setText(jobStartStr);
+        } else if (jobStartStr == null) {
+            jobStartTV.setText(holder.vhContext.getString(R.string.replacement_job_date));
+        } else {
+            String jobStartConcatStr =
+                    holder.vhContext.getString(R.string.jobstsil_opened) + jobStartStr;
+            jobStartTV.setText(jobStartConcatStr);
+        }
+        String jobEndStr = job.getString(JOB_END);
+        if (jobEndStr != null && jobEndStr.equals(holder.vhContext.getString(R.string.replacement_job_date))) {
+            jobEndTV.setText(jobEndStr);
+        } else if (jobEndStr == null) {
+            jobEndTV.setText(holder.vhContext.getString(R.string.replacement_job_date));
+        } else {
+            String jobEndConcatStr =
+                    holder.vhContext.getString(R.string.jobstsil_closing) + jobEndStr;
+            jobEndTV.setText(jobEndConcatStr);
+        }
+
         //jobIdTV.setText(job.getString(JOB_ID));
         jobOrgnameTV.setText(job.getString(JOB_ORGNAME));
         // TODO: If multiple locations for the listing, allow user to see all locations with a tap

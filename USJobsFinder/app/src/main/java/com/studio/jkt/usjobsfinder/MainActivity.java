@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(LOG_TAG, "creating...4");
+        Log.i(LOG_TAG, "creating...1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -438,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
                 toast.show();*/
             }
         } else if (requestCode == LOAD_WEB_REQUEST) {
+            // TODO: Determine if LOAD_WEB_REQUEST is obsolete
             Log.i(LOG_TAG, "onActResult webAct request found");
             if (resultCode == RESULT_OK) {
                 // The user pressed favorites button in webAct
@@ -732,7 +733,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 return getJobDataFromJson(jobsJsonStr);
             } catch (JSONException e) {
-                Log.v(LOG_TAG, "JSON Exception while parsing weather data: " + e);
+                Log.v(LOG_TAG, "JSON Exception while parsing jobs data: " + e);
                 return null;
             }
 
@@ -803,10 +804,18 @@ public class MainActivity extends AppCompatActivity {
             //Log.i(LOG_TAG, jobIDfromJSON);
 
             String jobTitlefromJSON = specJob.getString(JOB_TITLE);
-            bundle.putString(JOB_TITLE, jobTitlefromJSON);
+            if (jobTitlefromJSON.equals(getString(R.string.nllstr))) {
+                bundle.putString(JOB_TITLE, getString(R.string.replacement_job_title));
+            } else {
+                bundle.putString(JOB_TITLE, jobTitlefromJSON);
+            }
 
             String jobOrgNamefromJSON = specJob.getString(JOB_ORGNAME);
-            bundle.putString(JOB_ORGNAME, jobOrgNamefromJSON);
+            if (jobOrgNamefromJSON.equals(getString(R.string.nllstr))) {
+                bundle.putString(JOB_ORGNAME, getString(R.string.replacement_job_general));
+            } else {
+                bundle.putString(JOB_ORGNAME, jobOrgNamefromJSON);
+            }
 
             String jobCodefromJSON = specJob.getString(JOB_CODE);
             bundle.putString(JOB_CODE, jobCodefromJSON);
@@ -823,7 +832,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, "JSONEXC caught, for " + String.valueOf(jobMinfromJSON));
                 } catch (JSONException jsonDoubleError) {
                     String jobMinfromJSON = specJob.get(JOB_MIN).toString();
-                        Log.i(LOG_TAG, "DOUBLEJSONEXC caught, " + String.valueOf(jobMinfromJSON));
+                    if (jobMinfromJSON.equals(getString(R.string.nllstr))) {
+                        bundle.putInt(JOB_MIN, 0);
+                    }
+                    Log.i(LOG_TAG, "DOUBLEJSONEXC caught, " + String.valueOf(jobMinfromJSON));
                 }
             }
 
@@ -837,25 +849,51 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, "JSONEXC caught, for " + String.valueOf(jobMaxfromJSON));
                 } catch (JSONException jsonDoubleError2) {
                     String jobMaxfromJSON = specJob.get(JOB_MAX).toString();
+                    if (jobMaxfromJSON.equals(getString(R.string.nllstr))) {
+                        bundle.putInt(JOB_MAX, 0);
+                    }
                     Log.i(LOG_TAG, "DOUBLEJSONEXC caught, " + String.valueOf(jobMaxfromJSON));
                 }
             }
 
             String jobStartfromJSON = specJob.getString(JOB_START);
-            bundle.putString(JOB_START, jobStartfromJSON);
+            if (jobStartfromJSON.equals(getString(R.string.nllstr))) {
+                bundle.putString(JOB_START, getString(R.string.replacement_job_date));
+            } else {
+                bundle.putString(JOB_START, jobStartfromJSON);
+            }
 
             String jobEndfromJSON = specJob.getString(JOB_END);
-            bundle.putString(JOB_END, jobEndfromJSON);
-
-            JSONArray jobLocationsfromJSON = specJob.getJSONArray(JOB_LOC_array);
-            String[] jobLocationsArray = new String[jobLocationsfromJSON.length()];
-            for (int x = 0; x < jobLocationsfromJSON.length(); x++) {
-                jobLocationsArray[x] = jobLocationsfromJSON.getString(x);
+            if (jobEndfromJSON.equals(getString(R.string.nllstr))) {
+                bundle.putString(JOB_END, getString(R.string.replacement_job_date));
+            } else {
+                bundle.putString(JOB_END, jobEndfromJSON);
             }
-            bundle.putStringArray(JOB_LOC_array, jobLocationsArray);
+
+            // TODO: Test below null check
+            try {
+                JSONArray jobLocationsfromJSON = specJob.getJSONArray(JOB_LOC_array);
+                String[] jobLocationsArray = new String[jobLocationsfromJSON.length()];
+                for (int x = 0; x < jobLocationsfromJSON.length(); x++) {
+                    jobLocationsArray[x] = jobLocationsfromJSON.getString(x);
+                }
+                if (jobLocationsArray.length == 1 && jobLocationsArray[0].equals(getString(R.string.nllstr))) {
+                    Log.i(LOG_TAG, "only null string found for job location, placing null obj");
+                    bundle.putStringArray(JOB_LOC_array, null);
+                } else {
+                    bundle.putStringArray(JOB_LOC_array, jobLocationsArray);
+                }
+            } catch (JSONException jsonError3) {
+                Log.i(LOG_TAG, "JSONEXC caught for job locations, placing null obj");
+                bundle.putStringArray(JOB_LOC_array, null);
+            }
 
             String jobUrlfromJSON = specJob.getString(JOB_URL);
-            bundle.putString(JOB_URL, jobUrlfromJSON);
+            if (jobUrlfromJSON.equals(getString(R.string.nllstr))) {
+                bundle.putString(JOB_URL, getString(R.string.url_unavailable_id));
+            } else {
+                bundle.putString(JOB_URL, jobUrlfromJSON);
+            }
 
 
             resultStrs[i] = bundle;

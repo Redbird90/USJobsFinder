@@ -28,6 +28,8 @@ public class WebActivity extends AppCompatActivity {
     WebView regWebView;
     Bundle currJobBundle;
     String providedURL;
+    private FilterPrefs favsDataFiltPrefs3 = new FilterPrefs();
+    private FileIO fileIO3;
     Activity currAct = this;
     Toolbar webToolbar;
     String LOG_TAG = WebActivity.class.getSimpleName();
@@ -40,6 +42,7 @@ public class WebActivity extends AppCompatActivity {
         providedURL = intent.getStringExtra(getString(R.string.extra_webview_url_key));
         currJobBundle = intent.getBundleExtra(getString(R.string.extra_webview_jobdata_key));
         Log.i(LOG_TAG, "provided URL is " + providedURL);
+        this.fileIO3 = new AndroidFileIO(this);
         LinearLayout webActRootLay = (LinearLayout) findViewById(R.id.web_lin_lay);
         final ProgressBar webProgBar = (ProgressBar) webActRootLay.findViewById(R.id.webProgressBar);
         regWebView = (WebView) webActRootLay.findViewById(R.id.reg_webview);
@@ -102,9 +105,17 @@ public class WebActivity extends AppCompatActivity {
                 return true;
             case R.id.regwebview_favorite:
                 Log.i(LOG_TAG, "fav menu btn clicked");
-                Intent webResultIntent = new Intent();
+                /*Intent webResultIntent = new Intent();
                 webResultIntent.putExtra(getString(R.string.extra_webview_jobdata_key), currJobBundle);
-                setResult(RESULT_OK, webResultIntent);
+                setResult(RESULT_OK, webResultIntent);*/
+                boolean isJobSavedFromWeb = saveJobBundle3(currJobBundle);
+                Snackbar webSaveSnack;
+                if (isJobSavedFromWeb) {
+                    webSaveSnack = Snackbar.make(findViewById(R.id.web_lin_lay), getString(R.string.favs_jobsaved), Snackbar.LENGTH_LONG);
+                } else {
+                    webSaveSnack = Snackbar.make(findViewById(R.id.web_lin_lay), getString(R.string.favs_jobremoved), Snackbar.LENGTH_LONG);
+                }
+                webSaveSnack.show();
                 return true;
         }
 
@@ -124,10 +135,20 @@ public class WebActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "exiting webAct...");
     }
 
+    // TODO: Ensure onActResult below is needed
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(LOG_TAG, "onActResult in webAct");
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private boolean saveJobBundle3(Bundle bundledJobData3) {
+        final String JOB_ID = "id";
+        Log.i(LOG_TAG, "saving job, id is " + bundledJobData3.get(JOB_ID));
+        // TODO: Ensure error handling so user if notified of errors
+        boolean favJobAddResult3 = favsDataFiltPrefs3.addFavoriteJob(bundledJobData3);
+        favsDataFiltPrefs3.save(fileIO3);
+        return favJobAddResult3;
     }
 
 }

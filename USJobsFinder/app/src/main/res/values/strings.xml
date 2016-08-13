@@ -68,4 +68,10 @@
     <string name="location_not_chosen">No Location Chosen</string>
     <string name="map_saved_specloc">Saved Location</string>
     <string name="web_connect_error">Connection error:\u0020</string>
+    <string name="nllstr">null</string>
+    <string name="replacement_job_title">Job Title Unavailable</string>
+    <string name="replacement_job_general">Data unavailable</string>
+    <string name="replacement_job_date">Date Unavailable</string>
+    <string name="url_unavailable_id">url_not_avail</string>
+    <string name="url_data_missing">Sorry, url data unavailable for that job.</string>
 </resources>

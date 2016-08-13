@@ -17,7 +17,6 @@ public class FilterPrefs {
 
     // Create variables that will hold the values you want to save
     // Default values:
-    //TODO:CHECK W2W Settings for correct total height scaled saving
 
     public static int numOfFavJobs = 0;
     public static Bundle[] favsJobData;
@@ -76,11 +75,19 @@ public class FilterPrefs {
                 out.write("\n");
                 out.write(favsJobData[x].getString(JOB_END));
                 out.write("\n");
+                // TODO: Test below handling of writing null loc arrays
                 String[] tempJobLocArray = favsJobData[x].getStringArray(JOB_LOC_array);
-                out.write(String.valueOf(tempJobLocArray.length));
-                out.write("\n");
-                for (int y = 0; y < tempJobLocArray.length; y++) {
-                    out.write(tempJobLocArray[y]);
+                if (tempJobLocArray != null) {
+                    out.write(String.valueOf(tempJobLocArray.length));
+                    out.write("\n");
+                    for (int y = 0; y < tempJobLocArray.length; y++) {
+                        out.write(tempJobLocArray[y]);
+                        out.write("\n");
+                    }
+                } else {
+                    out.write("0");
+                    out.write("\n");
+                    out.write("null");
                     out.write("\n");
                 }
                 out.write(favsJobData[x].getString(JOB_URL));
@@ -142,10 +149,18 @@ public class FilterPrefs {
                 bundleJobFav.putInt(JOB_MAX, Integer.parseInt(in.readLine()));
                 bundleJobFav.putString(JOB_START, in.readLine());
                 bundleJobFav.putString(JOB_END, in.readLine());
+                // TODO: Test below handling of creating null loc arrays
                 int tempLengthInt = Integer.parseInt(in.readLine());
                 String[] tempStrArray = new String[tempLengthInt];
-                for (int z = 0; z < tempLengthInt; z++) {
-                    tempStrArray[z] = in.readLine();
+                String firstLocationStr = in.readLine();
+                if (firstLocationStr.equals("null")) {
+                    tempStrArray = null;
+                    Log.i(LOG_TAG, "job loc array set to null, tempLengthInt was " + String.valueOf(tempLengthInt));
+                } else {
+                    tempStrArray[0] = firstLocationStr;
+                    for (int z = 1; z < tempLengthInt; z++) {
+                        tempStrArray[z] = in.readLine();
+                    }
                 }
                 bundleJobFav.putStringArray(JOB_LOC_array, tempStrArray);
                 bundleJobFav.putString(JOB_URL, in.readLine());
