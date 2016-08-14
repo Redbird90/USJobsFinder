@@ -9,7 +9,7 @@ Change web progress to ProgressBar obj [C]
 Add logic to handle no tags selected [C]
 Test logic for changing between current loc/spec loc
 Ensure button in ON state is consistent between filters and easily noticeable by user
-Add null/empty value checks when reading data from JSON, replace with appropriate values and notify user
+Add null/empty value checks when reading data from JSON, replace with appropriate values [C]
 Fix string values for "Opened " and "Closing " [C]
 Fix string length for adjacent textviews in recyclerview items so that textviews do not overlap
 Fix multiple map onLongClicks and give user a way to see location and exit activity [C]

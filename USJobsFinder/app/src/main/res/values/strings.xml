@@ -74,4 +74,5 @@
     <string name="replacement_job_date">Date Unavailable</string>
     <string name="url_unavailable_id">url_not_avail</string>
     <string name="url_data_missing">Sorry, url data unavailable for that job.</string>
+    <string name="currlocation_waiting">Still looking for your current location…</string>
 </resources>

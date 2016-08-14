@@ -1,2 +1,2 @@
-bug title,description,directions to reproduce,directions/guidelines to fix,comments
-location unavail soon after usecurrloc btn press, n/a, pressed usecurrloc btn in nav drawer and quickly closed nav drawer; location unavailable toast then is shown,to fix ch
+bug title,description w/directions,directions/guidelines to fix,comments
+searchJobs without filterPrefsChanged true,upon closing nav drawer with usecurrloc btn toggled jobs search will occur even if no filter/sort prefs were changed, check filterPrefsChanged logic in handle new filter prefs method,

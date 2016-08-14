@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(LOG_TAG, "creating...1");
+        Log.i(LOG_TAG, "creating...6");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -510,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
         //this.filterPostDate = prefsBundle.getBoolean(getString(R.string.filterPostDateKey));
         String tempFilterPostDateValue = prefsBundle.getString(getString(R.string.filterPostDateValueKey));
         Log.i(LOG_TAG, "handling filter prefs, temp is " + tempFilterPostDateValue + ", curr is " + filterPostDateValue);
-        if (this.filterPostDateValue != tempFilterPostDateValue) {
+        if (!this.filterPostDateValue.equals(tempFilterPostDateValue)) {
             this.filterPrefsChanged = true;
         } // TODO: Add else if postDate changed!
         this.filterPostDateValue = tempFilterPostDateValue;
@@ -541,6 +541,7 @@ public class MainActivity extends AppCompatActivity {
                 snackbar.show();*/
                 /*Toast toast3 = Toast.makeText(this, getString(R.string.location_permissions_denied), Toast.LENGTH_SHORT);
                 toast3.show();*/
+                Log.i(LOG_TAG, "currlocation wanted in handle new filtprefs but still unavailable!");
                 tempCurrLocation = new Location("nomatter2");
             }
             try {
@@ -658,6 +659,11 @@ public class MainActivity extends AppCompatActivity {
                 if (filterCurrLocation) {
                     locStr += Double.toString(currLocation.getLatitude()) + "," + Double.toString(currLocation.getLongitude());
                     Log.i(LOG_TAG, "filterCurrLoc true and locStr is " + locStr);
+                    if (locStr.equals("0.0,0.0")) {
+                        Snackbar currLocMissingSnack = Snackbar.make(findViewById(R.id.root_linear_layout), getString(R.string.currlocation_waiting), Snackbar.LENGTH_SHORT);
+                        currLocMissingSnack.show();
+                        locStr = "";
+                    }
                     builder2.append("lat_lon=" + locStr);
                 } else if (filterSpecLocation) {
                     locStr += Double.toString(specifiedLocation.getLatitude()) + "," + Double.toString(specifiedLocation.getLongitude());
@@ -788,7 +794,6 @@ public class MainActivity extends AppCompatActivity {
         int numJobs = jobsJson.length();
         Log.i(LOG_TAG, String.valueOf(numJobs));
         Log.i(LOG_TAG, jobsJson.toString());
-        //Log.i(LOG_TAG, String.valueOf(jobsJsonStr));
 
         Bundle[] resultStrs = new Bundle[numJobs];
         for (int i = 0; i < jobsJson.length(); i++) {
@@ -796,7 +801,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Get the JSON object representing the day
             JSONObject specJob = jobsJson.getJSONObject(i);
-            //Log.i(LOG_TAG, String.valueOf(specJob));
             Bundle bundle = new Bundle();
 
             String jobIDfromJSON = specJob.getString(JOB_ID);

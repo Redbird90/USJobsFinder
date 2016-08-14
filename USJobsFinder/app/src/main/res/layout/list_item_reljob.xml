@@ -10,7 +10,6 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:background="?android:attr/selectableItemBackground"
                 android:theme="@style/AppTheme">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,59 +21,85 @@
         android:textStyle="bold"
         android:textAppearance="?android:textAppearanceMedium"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/list_item_job_salary_tv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@id/list_item_job_title_tv"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textStyle="bold"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/list_item_job_start_tv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/list_item_job_salary_tv"
-        android:textAppearance="?android:textAppearanceSmall"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingEnd="3dp"
+            android:paddingRight="3dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/list_item_job_end_tv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/list_item_job_start_tv"
-        android:textAppearance="?android:textAppearanceSmall"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/list_item_job_salary_tv"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="bold"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/list_item_job_start_tv"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/list_item_job_salary_tv"
+                android:textAppearance="?android:textAppearanceSmall"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/list_item_job_orgname_tv"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/list_item_job_title_tv"
-        android:lines="2"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:maxWidth="200dp"
-        android:gravity="end"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/list_item_job_end_tv"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/list_item_job_start_tv"
+                android:textAppearance="?android:textAppearanceSmall"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/list_item_job_locations_tv"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/list_item_job_orgname_tv"/>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingStart="3dp"
+            android:paddingLeft="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/list_item_job_orgname_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:maxLines="2"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:gravity="end"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/list_item_job_locations_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/list_item_job_orgname_tv"
+                android:maxLines="1"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:gravity="end"
+                android:ellipsize="end"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

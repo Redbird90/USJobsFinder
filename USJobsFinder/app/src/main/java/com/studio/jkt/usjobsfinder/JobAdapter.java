@@ -245,7 +245,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewAndJobHolder
 
         //jobIdTV.setText(job.getString(JOB_ID));
         jobOrgnameTV.setText(job.getString(JOB_ORGNAME));
-        // TODO: If multiple locations for the listing, allow user to see all locations with a tap
+        // TODO: If multiple locations for the listing, allow user to see all locations with a tap;
         jobLocationsTV.setText(modLocStr);
 
         Log.i(LOG_TAG, "onBindViewHolder RUN, view populated");

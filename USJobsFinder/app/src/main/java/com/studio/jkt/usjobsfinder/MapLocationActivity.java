@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -38,6 +39,7 @@ public class MapLocationActivity extends AppCompatActivity implements OnMapReady
     private Double tempLong;
     private String LOG_TAG = MapLocationActivity.class.getSimpleName();
     Toolbar mapToolbar;
+    LinearLayout linearLayoutRoot;
     //GoogleMap map;
     //MapFragment mapFrag;
 
@@ -47,7 +49,7 @@ public class MapLocationActivity extends AppCompatActivity implements OnMapReady
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maplocation);
 
-        LinearLayout linearLayoutRoot = (LinearLayout) findViewById(R.id.map_linearlayout_root);
+        linearLayoutRoot = (LinearLayout) findViewById(R.id.map_linearlayout_root);
 
         Log.i(LOG_TAG, "creating map fragment");
         MapFragment mMapFragment = MapFragment.newInstance();
@@ -92,10 +94,10 @@ public class MapLocationActivity extends AppCompatActivity implements OnMapReady
                 specLocMarker[0] = specLocMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title(getString(R.string.map_saved_specloc)));
-                Toast mapToast = Toast.makeText(getApplicationContext(), getString(R.string.map_location_saved), Toast.LENGTH_SHORT);
+                Snackbar mapSnack = Snackbar.make(linearLayoutRoot, getString(R.string.map_location_saved), Snackbar.LENGTH_SHORT);
                 tempLat = latLng.latitude;
                 tempLong = latLng.longitude;
-                mapToast.show();
+                mapSnack.show();
                 Intent actResultIntent = new Intent();
                 actResultIntent.putExtra("lat", tempLat);
                 actResultIntent.putExtra("long", tempLong);
